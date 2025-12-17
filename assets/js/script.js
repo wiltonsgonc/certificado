@@ -15,8 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const reader = new FileReader();
             reader.onload = function(event) {
                 imagemFundo = event.target.result;
-                
-                // Mostra mensagem de sucesso
                 showMessage('✓ Imagem de fundo carregada com sucesso!', 'success');
                 updateButtonState();
             };
@@ -29,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const file = e.target.files[0];
         if (file) {
             showMessage('Processando arquivo CSV...', 'info');
-            
+
             Papa.parse(file, {
                 header: true,
                 skipEmptyLines: true,
@@ -37,28 +35,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 encoding: 'UTF-8',
                 complete: function(results) {
                     console.log('CSV parseado:', results);
-                    
+
                     // Limpa array anterior
                     participantes = [];
-                    
+
                     // Processa cada linha
                     results.data.forEach((row, index) => {
                         console.log(`Linha ${index}:`, row);
-                        
+
                         // Pula linhas completamente vazias
                         if (!row || Object.keys(row).length === 0) {
                             console.log(`Linha ${index} vazia, pulando...`);
                             return;
                         }
-                        
+
                         // Tenta encontrar o nome
                         let nome = null;
-                        
-                        // Verifica colunas comuns (case insensitive)
                         const keys = Object.keys(row);
                         for (let key of keys) {
                             const lowerKey = key.toLowerCase();
-                            if (lowerKey.includes('nome') || lowerKey.includes('name') || 
+                            if (lowerKey.includes('nome') || lowerKey.includes('name') ||
                                 lowerKey.includes('participante') || lowerKey.includes('aluno')) {
                                 if (row[key] && row[key].toString().trim() !== '') {
                                     nome = row[key].toString().trim();
@@ -67,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 }
                             }
                         }
-                        
+
                         // Se não encontrou, pega o primeiro valor não vazio
                         if (!nome) {
                             for (let key of keys) {
@@ -78,9 +74,10 @@ document.addEventListener('DOMContentLoaded', function() {
                                 }
                             }
                         }
-                        
-                        // Só adiciona se encontrou um nome válido
-                        if (nome && nome !== '') {
+
+                        // Validação final do nome
+                        if (nome && nome !== '' &&
+                            !['nome', 'participante', 'aluno', 'name'].includes(nome.toLowerCase())) {
                             participantes.push({
                                 Nome: nome
                             });
@@ -89,10 +86,17 @@ document.addEventListener('DOMContentLoaded', function() {
                             console.log(`Linha ${index} não contém nome válido, pulando...`);
                         }
                     });
-                    
-                    console.log('Total de participantes encontrados:', participantes.length);
+
+                    // Filtra novamente para garantir que não há nomes inválidos
+                    participantes = participantes.filter(p =>
+                        p.Nome &&
+                        p.Nome.trim() !== '' &&
+                        !['nome', 'participante', 'aluno', 'name'].includes(p.Nome.toLowerCase())
+                    );
+
+                    console.log('Total de participantes válidos:', participantes.length);
                     console.log('Lista de participantes:', participantes);
-                    
+
                     // Atualiza a visualização
                     if (participantes.length > 0) {
                         let html = `<div class="alert alert-success" role="alert">
@@ -123,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                         `;
                     }
-                    
+
                     updateButtonState();
                 },
                 error: function(error) {
@@ -139,12 +143,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Atualiza estado do botão de gerar
     function updateButtonState() {
-        const tudoPreenchido = participantes.length > 0 && 
-                              imagemFundo && 
+        const tudoPreenchido = participantes.length > 0 &&
+                              imagemFundo &&
                               textoCertificadoInput.value.trim() !== '';
-        
+
         gerarBtn.disabled = !tudoPreenchido;
-        
+
         if (tudoPreenchido) {
             gerarBtn.classList.remove('btn-secondary');
             gerarBtn.classList.add('btn-primary');
@@ -158,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Inicializa estado do botão
     updateButtonState();
-    
+
     // Configura o evento de clique
     gerarBtn.addEventListener('click', gerarCertificados);
 });
@@ -172,7 +176,7 @@ function showMessage(text, type = 'info') {
         'warning': 'alert-warning',
         'info': 'alert-info'
     }[type] || 'alert-info';
-    
+
     messageArea.innerHTML = `
         <div class="alert ${alertClass} alert-dismissible fade show" role="alert">
             ${text}
@@ -194,17 +198,17 @@ async function gerarCertificados() {
         showMessage('Por favor, carregue a lista de participantes.', 'danger');
         return;
     }
-    
+
     if (!imagemFundo) {
         showMessage('Por favor, carregue uma imagem de fundo.', 'danger');
         return;
     }
-    
+
     const textoCertificado = textoCertificadoInput.value.trim();
     if (!textoCertificado.includes('[NOME]')) {
         showMessage('O texto do certificado deve conter [NOME] para substituir pelo nome do participante.', 'warning');
     }
-    
+
     // Mostrar progresso
     previewDiv.innerHTML = `
         <div class="text-center">
@@ -232,7 +236,7 @@ async function gerarCertificados() {
         if (typeof window.jspdf === 'undefined') {
             throw new Error('Biblioteca jsPDF não carregada. Recarregue a página.');
         }
-        
+
         const { jsPDF } = window.jspdf;
         const zip = new JSZip();
         const folder = zip.folder("certificados");
@@ -245,23 +249,23 @@ async function gerarCertificados() {
         for (let i = 0; i < participantes.length; i++) {
             const participante = participantes[i];
             const nome = participante.Nome;
-            
+
             // Pular participantes sem nome válido
-            if (!nome || nome.trim() === '' || nome.toLowerCase() === 'nome' || 
+            if (!nome || nome.trim() === '' || nome.toLowerCase() === 'nome' ||
                 nome.toLowerCase() === 'participante' || nome.toLowerCase() === 'aluno') {
                 console.log(`Pulando participante ${i} - nome inválido: "${nome}"`);
                 continue;
             }
-            
+
             const nomeLimpo = nome.trim();
-            console.log(`Gerando certificado ${i+1} para: "${nomeLimpo}"`);
-            
+            console.log(`Gerando certificado ${certificadosGerados + 1} para: "${nomeLimpo}"`);
+
             // Atualizar progresso
             certificadosGerados++;
             const progresso = Math.round((certificadosGerados / participantes.length) * 100);
             progressBar.style.width = `${progresso}%`;
             progressPercent.textContent = `${progresso}%`;
-            
+
             // Criar PDF
             const doc = new jsPDF({
                 orientation: 'landscape',
@@ -282,11 +286,11 @@ async function gerarCertificados() {
             doc.setFont("times", "normal");
             doc.setFontSize(18);
             doc.setTextColor(0, 0, 0);
-            
+
             // Substitui [NOME] pelo nome do participante
             const texto = textoCertificado.replace(/\[NOME\]/g, nomeLimpo);
             const lines = doc.splitTextToSize(texto, 240);
-            
+
             // Posiciona o texto centralizado
             let yPos = 90;
             lines.forEach(line => {
@@ -296,37 +300,37 @@ async function gerarCertificados() {
 
             // Converter para blob
             const blob = doc.output('blob');
-            
+
             // Nome do arquivo seguro
             const nomeArquivo = `certificado_${nomeLimpo
-                .replace(/[^\w\u00C0-\u00FF\s-]/gi, '') // Remove caracteres especiais, mantém letras, números, acentos, hífens
+                .replace(/[^\w\u00C0-\u00FF\s-]/gi, '')
                 .replace(/\s+/g, '_')
                 .replace(/_+/g, '_')
                 .toLowerCase()}.pdf`;
-            
+
             console.log(`Salvando como: ${nomeArquivo}`);
             folder.file(nomeArquivo, blob);
-            
+
             // Pequena pausa para não sobrecarregar
             await new Promise(resolve => setTimeout(resolve, 50));
         }
 
         // Verificar se algum certificado foi gerado
-        const fileCount = Object.keys(folder.files).length;
+        const fileCount = certificadosGerados;
         if (fileCount === 0) {
             throw new Error('Nenhum certificado foi gerado. Verifique se os nomes no CSV são válidos.');
         }
 
         console.log(`Total de certificados gerados: ${fileCount}`);
-        
+
         // Gerar arquivo ZIP
         progressBar.style.width = '100%';
         progressPercent.textContent = '100%';
         progressBar.classList.remove('progress-bar-animated');
-        
+
         const content = await zip.generateAsync({ type: 'blob' });
         const url = URL.createObjectURL(content);
-        
+
         // Criar link de download
         const a = document.createElement('a');
         a.href = url;
@@ -334,7 +338,7 @@ async function gerarCertificados() {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        
+
         // Limpar URL
         setTimeout(() => {
             URL.revokeObjectURL(url);
@@ -353,7 +357,7 @@ async function gerarCertificados() {
                 <div class="alert alert-info mt-3">
                     <i class="bi bi-info-circle me-2"></i>
                     <small>Arquivos incluídos no ZIP:<br>
-                    ${participantes.slice(0, 3).map(p => 
+                    ${participantes.slice(0, 3).map(p =>
                         `• certificado_${p.Nome
                             .replace(/[^\w\u00C0-\u00FF\s-]/gi, '')
                             .replace(/\s+/g, '_')
@@ -383,7 +387,7 @@ async function gerarCertificados() {
         gerarBtn.innerHTML = '<i class="bi bi-file-earmark-zip me-2"></i>Gerar e Baixar Certificados (ZIP)';
         gerarBtn.classList.remove('btn-secondary');
         gerarBtn.classList.add('btn-primary');
-        
+
         // Esconder barra de progresso
         setTimeout(() => {
             progressContainer.classList.add('d-none');
