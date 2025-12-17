@@ -38,9 +38,9 @@ Esta é uma aplicação de geração de certificados desenvolvido para eventos S
 
 - HTML5, CSS3 e JavaScript
 - Processamento local usando bibliotecas JavaScript:
-    1 - PDF: jsPDF versão 3.0.4
-    2 - Parse do CSV para o PDF: Papa Parse versão 5.3.0
-    3 - ZIP: JSZip versão 3.10.1
+    1. PDF: jsPDF versão 3.0.4
+    2. Parse do CSV para o PDF: Papa Parse versão 5.3.0
+    3. ZIP: JSZip versão 3.10.1
 - Design responsivo feito com Bootstrap 5
 - Bootstrap Icons
 
