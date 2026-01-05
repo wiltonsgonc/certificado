@@ -276,11 +276,11 @@ async function gerarCertificados() {
             // Adicionar imagem de fundo
             doc.addImage(imagemFundo, 'JPEG', 0, 0, 297, 210);
 
-            // Título do certificado
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(32);
-            doc.setTextColor(0, 0, 0);
-            doc.text('CERTIFICADO', 148, 60, { align: 'center' });
+            // // Título do certificado
+            // doc.setFont("helvetica", "bold");
+            // doc.setFontSize(32);
+            // doc.setTextColor(0, 0, 0);
+            // doc.text('CERTIFICADO', 148, 60, { align: 'center' });
 
             // Texto personalizado
             doc.setFont("times", "normal");
