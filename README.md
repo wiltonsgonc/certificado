@@ -9,6 +9,12 @@ Esta é uma aplicação de geração de certificados desenvolvido para eventos S
 - Processamento de dados totalmente local (sem envio para servidores externos)
 - Interface responsiva com design feito com BootStrap v. 5.0
 
+## Como instalar
+- Instale o Python na versão mais atual.
+- Faça o download no botão "Code", depois em "Downlad ZIP".
+- Descompactar o ZIP, entrar na pasta descompactada e clicar duas vezes no arquivo "inicar.bat".
+- Siga as instruções na tela preta que se abrir.
+
 ## Como Usar
 
 1. **Lista de Participantes**: 
