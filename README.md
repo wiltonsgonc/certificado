@@ -10,10 +10,9 @@ Esta é uma aplicação de geração de certificados desenvolvido para eventos S
 - Interface responsiva com design feito com BootStrap v. 5.0
 
 ## Como instalar
-- Instale o Python na versão mais atual.
-- Faça o download no botão "Code", depois em "Downlad ZIP".
-- Descompactar o ZIP, entrar na pasta descompactada e clicar duas vezes no arquivo "inicar.bat".
-- Siga as instruções na tela preta que se abrir.
+- Baixe a versão correspondente ao seu sistema operacional em https://github.com/wiltonsgonc/certificado/releases
+- Para o binário de Windows, basta clicar duas vezes no executável e dá permissão de execução.
+- Para finalizar a aplicação, basta pressinar Ctrl + C na tela do terminal que foi aberto pela aplicação.
 
 ## Como Usar
 
