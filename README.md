@@ -1,22 +1,23 @@
 # Gerador de Certificados SENAI CIMATEC
 
-Esta é uma aplicação de geração de certificados desenvolvido para eventos SENAI CIMATEC. A aplicação permite criar certificados personalizados com processamento local de dados, garantindo segurança e privacidade.
+Esta é uma aplicação desenvolvida para gerar certificados para eventos/cursos internos da Universidade SENAI CIMATEC. A aplicação permite criar certificados personalizados com processamento local de dados, garantindo segurança e privacidade.
 
 ## Recursos
 
 - Geração de certificados personalizados com texto personalizado usando [NOME] como placeholder
 - Upload de imagens de fundo em alta resolução (recomendado A4 em 300 DPI)
 - Processamento de dados totalmente local (sem envio para servidores externos)
-- Interface responsiva com design feito com BootStrap v. 5.0
+- Interface responsiva com design feito com BootStrap versão 5.0
 
 ## Como instalar
+
 - Baixe a versão correspondente ao seu sistema operacional em https://github.com/wiltonsgonc/certificado/releases
-- Para o binário de Windows, basta clicar duas vezes no executável e dá permissão de execução.
-- Para finalizar a aplicação, basta pressinar Ctrl + C na tela do terminal que foi aberto pela aplicação.
+- Para o executável para Windows, basta clicar duas vezes no executável e dá permissão de execução.
+- Para finalizar a aplicação, basta pressionar Ctrl + C na tela do terminal que foi aberto pela aplicação.
 
 ## Como Usar
 
-1. **Lista de Participantes**: 
+1. **Lista de Participantes**:
    - Crie um arquivo CSV com uma coluna contendo os nomes dos participantes
    - Exemplo:
      ```
@@ -43,9 +44,9 @@ Esta é uma aplicação de geração de certificados desenvolvido para eventos S
 
 - HTML5, CSS3 e JavaScript
 - Processamento local usando bibliotecas JavaScript:
-    1. PDF: jsPDF versão 3.0.4
-    2. Parse do CSV para o PDF: Papa Parse versão 5.3.0
-    3. ZIP: JSZip versão 3.10.1
+  1. PDF: jsPDF versão 3.0.4
+  2. Parser do CSV para o PDF: Papa Parse versão 5.3.0
+  3. ZIP: JSZip versão 3.10.1
 - Design responsivo feito com Bootstrap 5
 - Bootstrap Icons
 
