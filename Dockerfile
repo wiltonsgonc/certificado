@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # Stage: build (Linux)
-FROM golang:1.20-alpine AS build-linux
+FROM golang:1.26-alpine AS build-linux
 WORKDIR /src
 RUN apk add --no-cache git ca-certificates
 COPY go.mod go.sum ./
@@ -9,7 +9,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o /out/certificado-linux-amd64 ./main.go
 
 # Stage: build-windows (Windows .exe)
-FROM golang:1.20 AS build-windows
+FROM golang:1.26 AS build-windows
 WORKDIR /src
 COPY go.mod go.sum ./
 RUN go mod download

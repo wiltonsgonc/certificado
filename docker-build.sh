@@ -14,7 +14,7 @@ docker rm "$CONTAINER_ID"
 
 # build Windows amd64 using buildx (cross-compile)
 # usa imagem golang para compilar com GOOS=windows
-docker run --rm -v "$(pwd)":/src -w /src golang:1.20 bash -c "CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags='-s -w' -o /src/$OUTDIR/certificado-windows-amd64.exe ./main.go"
+docker run --rm -v "$(pwd)":/src -w /src golang:1.26 bash -c "CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags='-s -w' -o /src/$OUTDIR/certificado-windows-amd64.exe ./main.go"
 
 echo "Binaries written to $OUTDIR/"
 ls -la "$OUTDIR"

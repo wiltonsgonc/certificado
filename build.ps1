@@ -16,7 +16,7 @@ Write-Host ("Using: " + $tool)
 if (-not (Test-Path "go.mod")) {
     Write-Host "go.mod not found - initializing module inside golang container..."
     $cmd = 'bash -lc "if [ ! -f go.mod ]; then go mod init certificado; fi; go mod tidy"'
-    & $tool run --rm -v "${PWD}:/src" -w /src docker.io/library/golang:1.20 $cmd
+    & $tool run --rm -v "${PWD}:/src" -w /src docker.io/library/golang:1.26 $cmd
 }
 
 # Build the final release image (optional) and also build stages for extraction
