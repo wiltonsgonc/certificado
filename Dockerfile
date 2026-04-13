@@ -16,6 +16,14 @@ RUN go mod download
 COPY . .
 RUN CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" -o /out/certificado-windows-amd64.exe ./main.go
 
+# Stage: build-darwin-arm64 (MacOS ARM)
+FROM golang:1.26 AS build-darwin-arm64
+WORKDIR /src
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o /out/certificado-darwin-arm64 ./main.go
+
 # Minimal runtime image for Linux binary (optional runtime image)
 FROM scratch AS release-linux
 COPY --from=build-linux /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt

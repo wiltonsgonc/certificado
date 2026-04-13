@@ -30,6 +30,9 @@ Write-Host "Building build-linux stage..."
 Write-Host "Building build-windows stage..."
 & $tool build --target build-windows -t temp-build-windows .
 
+Write-Host "Building build-darwin-arm64 stage..."
+& $tool build --target build-darwin-arm64 -t temp-build-darwin-arm64 .
+
 # Extract from build-linux
 Write-Host "Extracting certificado-linux-amd64 from temp-build-linux..."
 $cid1 = (& $tool create temp-build-linux)
@@ -52,6 +55,18 @@ try {
 } finally {
     Write-Host "Removing temp-build-windows container..."
     & $tool rm -v $cid2 | Out-Null
+}
+
+# Extract from build-darwin-arm64
+Write-Host "Extracting certificado-darwin-arm64 from temp-build-darwin-arm64..."
+$cid3 = (& $tool create temp-build-darwin-arm64)
+if (-not $cid3) { Write-Error "Failed to create temp-build-darwin-arm64 container."; exit 1 }
+try {
+    & $tool cp ("${cid3}:/out/certificado-darwin-arm64") ("$OutDir\certificado-darwin-arm64") 2>$null
+    if ($LASTEXITCODE -ne 0) { Write-Warning "certificado-darwin-arm64 not found in temp-build-darwin-arm64." }
+} finally {
+    Write-Host "Removing temp-build-darwin-arm64 container..."
+    & $tool rm -v $cid3 | Out-Null
 }
 
 Write-Host ("Build finished. Binaries in: " + $OutDir)

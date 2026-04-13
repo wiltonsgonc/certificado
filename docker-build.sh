@@ -16,5 +16,11 @@ CONTAINER_ID=$(docker create temp-build-windows true)
 docker cp "$CONTAINER_ID":/out/certificado-windows-amd64.exe "$OUTDIR"/certificado-windows-amd64.exe
 docker rm "$CONTAINER_ID"
 
+# build Darwin arm64 (MacOS ARM)
+docker build --target build-darwin-arm64 -t temp-build-darwin-arm64 .
+CONTAINER_ID=$(docker create temp-build-darwin-arm64 true)
+docker cp "$CONTAINER_ID":/out/certificado-darwin-arm64 "$OUTDIR"/certificado-darwin-arm64
+docker rm "$CONTAINER_ID"
+
 echo "Binaries written to $OUTDIR/"
 ls -la "$OUTDIR"
