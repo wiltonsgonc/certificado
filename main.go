@@ -84,6 +84,7 @@ func main() {
 	}()
 
 	fmt.Printf("Servindo em %s\n", url)
+	fmt.Printf("Pressione Ctrl + C para encerrar o programa.")
 	if err := http.ListenAndServe(addr, nil); err != nil {
 		log.Fatalf("erro ao iniciar servidor: %v", err)
 	}
