@@ -9,11 +9,12 @@ Esta é uma aplicação desenvolvida para gerar certificados para eventos/cursos
 - Processamento de dados totalmente local (sem envio para servidores externos)
 - Interface responsiva com design feito com BootStrap versão 5.0
 
-## Como instalar
+## Versões
 
 - Baixe a versão correspondente ao seu sistema operacional em https://github.com/wiltonsgonc/certificado/releases
-- Para o executável para Windows, basta clicar duas vezes no executável e dá permissão de execução.
-- Para finalizar a aplicação, basta pressionar Ctrl + C na tela do terminal que foi aberto pela aplicação.
+- Para Windows (AMD64), certificado-windows-amd64.exe.
+- Para Linux (AMD64), certificado-linux-amd64.
+- Para MacOS (ARM), certificado-darwin-arm64.
 
 ## Como Usar
 
