@@ -1,3 +1,9 @@
+/*
+ * Desenvolvedor: Wilton Gonçalves (wilton.goncalves@fbter.org.br)
+ * Função: Bolsista
+ * Versão: 0.0.2 — 15-04-2026
+ * Repo: https://github.com/wiltonsgonc/certificado
+ */
 package main
 
 import (
